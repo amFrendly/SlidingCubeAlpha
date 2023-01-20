@@ -7,7 +7,7 @@ public class Spawer : MonoBehaviour
     [SerializeField] GameObject cube;
     [SerializeField] List<GameObject> platforms;
     [SerializeField] bool spawned = false;
-    public int platformsAmount { get { return platforms.Count -1; } }
+    public int platformsAmount = 0;
     Vector3 nextSpawnPos;
 
     // Start is called before the first frame update
@@ -29,12 +29,10 @@ public class Spawer : MonoBehaviour
 
         Transform platformA = platforms[platforms.Count - 2].transform;
         Transform platformB = platforms[platforms.Count - 1].transform;
-        GameObject cube = Instantiate(this.cube);
+        GameObject cube = Instantiate(this.cube, platformA);
         Vector3 direction = platformB.position - platformA.position;
-        cube.name = (platforms.Count - 1).ToString();
-        cube.transform.localScale = new Vector3(1, 1, direction.magnitude);
-        cube.transform.position = (platformB.position + platformA.position) / 2;
-        platforms.Add(cube);
+        cube.transform.localScale = new Vector3(1 / platformA.localScale.x, 1 / platformA.localScale.y, (direction.magnitude / 2) / platformA.localScale.z);
+        cube.transform.position = (platformA.position + direction / 2);
     }
 
     public void CreatePlatform(int x, int z)
@@ -42,7 +40,21 @@ public class Spawer : MonoBehaviour
         GameObject cube = Instantiate(this.cube);
         cube.transform.localScale = new Vector3(x, 1, z);
         cube.transform.position = nextSpawnPos;
+        cube.name = (platformsAmount + 1).ToString();
         nextSpawnPos.z += z * 2;
         platforms.Add(cube);
+
+        platformsAmount++;
+    }
+
+    public void RemovePlatforms()
+    {
+        if (platformsAmount <= 2) return;
+
+        for(int i = 0; i < platforms.Count - 3; i++)
+        {
+            Destroy(platforms[0]);
+            platforms.RemoveAt(0);
+        }
     }
 }
