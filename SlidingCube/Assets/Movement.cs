@@ -8,6 +8,7 @@ public class Movement : MonoBehaviour
     [SerializeField] float sensitivity;
     Rigidbody rb;
     float mouseX;
+    bool move = true;
 
     void Start()
     {
@@ -19,12 +20,20 @@ public class Movement : MonoBehaviour
     void Update()
     {
         mouseX += Input.GetAxis("Mouse X") * sensitivity;
-
         if (Input.GetKey(KeyCode.W))
         {
-           rb.AddForce(transform.forward * speed);
+            move = true;
         }
 
         transform.eulerAngles = new Vector3(0, mouseX, 0);
+    }
+
+    private void FixedUpdate()
+    {
+        if(move)
+        {
+            rb.AddForce(transform.forward * speed);
+            move = false;
+        }
     }
 }

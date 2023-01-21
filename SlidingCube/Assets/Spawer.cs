@@ -5,8 +5,7 @@ using UnityEngine;
 public class Spawer : MonoBehaviour
 {
     [SerializeField] GameObject cube;
-    [SerializeField] List<GameObject> platforms;
-    [SerializeField] bool spawned = false;
+    [SerializeField] public List<GameObject> platforms;
     public int platformsAmount = 0;
     Vector3 nextSpawnPos;
 
@@ -37,7 +36,7 @@ public class Spawer : MonoBehaviour
 
     public void CreatePlatform(int x, int z)
     {
-        GameObject cube = Instantiate(this.cube);
+        GameObject cube = Instantiate(this.cube, transform);
         cube.transform.localScale = new Vector3(x, 1, z);
         cube.transform.position = nextSpawnPos;
         cube.name = (platformsAmount + 1).ToString();
