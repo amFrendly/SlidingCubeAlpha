@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+
 
 public class Spawer : MonoBehaviour
 {
     [SerializeField] GameObject cube;
     [SerializeField] public List<GameObject> platforms;
-    public int platformsAmount = 0;
+    [NonSerialized] public int platformsAmount = 0;
     Vector3 nextSpawnPos;
 
     // Start is called before the first frame update
@@ -50,7 +52,7 @@ public class Spawer : MonoBehaviour
     {
         if (platformsAmount <= 2) return;
 
-        for(int i = 0; i < platforms.Count - 3; i++)
+        for (int i = 0; i < platforms.Count - 3; i++)
         {
             Destroy(platforms[0]);
             platforms.RemoveAt(0);

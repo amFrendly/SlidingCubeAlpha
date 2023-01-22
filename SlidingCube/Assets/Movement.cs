@@ -8,7 +8,7 @@ public class Movement : MonoBehaviour
     [SerializeField] float sensitivity;
     Rigidbody rb;
     float mouseX;
-    bool move = true;
+    bool move = false;
 
     void Start()
     {
@@ -25,7 +25,12 @@ public class Movement : MonoBehaviour
             move = true;
         }
 
-        transform.eulerAngles = new Vector3(0, mouseX, 0);
+        transform.eulerAngles = new Vector3(transform.eulerAngles.x, mouseX, transform.eulerAngles.z);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        
     }
 
     private void FixedUpdate()
